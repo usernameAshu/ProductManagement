@@ -22,6 +22,9 @@ import labs.pm.data.Product;
 
 import java.math.BigDecimal;
 
+/**
+ * @author MOHANTY
+ */
 public class Shop {
 
     public static void main(String[] args) {
@@ -29,6 +32,7 @@ public class Shop {
         product.setId(1);
         product.setName("tea");
         product.setPrice(BigDecimal.valueOf(16));
+        //product.setFiscalDetails();
 
         System.out.println(product);
     }

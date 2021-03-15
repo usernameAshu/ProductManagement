@@ -28,12 +28,48 @@ public class Product {
     private int id;
     private String name;
     private BigDecimal price;
+    private BigDecimal tax;
+    private BigDecimal discount;
+
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.10);
 
     public Product() {
         this.id = 0;
         this.name = null;
         this.price = BigDecimal.ZERO;
+        this.discount = BigDecimal.ZERO;
+        this.tax = BigDecimal.ZERO;
+    }
+
+    /**
+     * Resuse of constructor through this()
+     * @param id
+     * @param name
+     * @param price
+     */
+    public Product(int id, String name,BigDecimal price) {
+        this(id,name);
+        this.price = price;
+    }
+
+    public Product(int id,String name) {
+        this.id = id;
+        this.name = name;
+        this.tax = BigDecimal.ONE;
+    }
+    /**
+     * @<code>Vaargs</code> implementation
+     * @param values
+     */
+    public void setFiscalDetails(double... values) {
+        switch(values.length) {
+            case 3:
+                tax = BigDecimal.valueOf(values[2]);
+            case 2:
+                discount = BigDecimal.valueOf(values[1]);
+            case 1:
+                price = BigDecimal.valueOf(values[0]);
+        }
     }
 
     public int getId() {
@@ -69,6 +105,6 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" + "id=" + id + ", name='" + name + '\'' + ", price=" + price + ", discount=" + getDiscount()
-                + '}';
+                + ", tax="+tax +'}';
     }
 }
