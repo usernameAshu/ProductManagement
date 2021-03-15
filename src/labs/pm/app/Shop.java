@@ -28,10 +28,7 @@ import java.math.BigDecimal;
 public class Shop {
 
     public static void main(String[] args) {
-        Product product = new Product();
-        product.setId(1);
-        product.setName("tea");
-        product.setPrice(BigDecimal.valueOf(16));
+        Product product = new Product(1,"Tea",BigDecimal.valueOf(16),BigDecimal.valueOf(0.05));
         //product.setFiscalDetails();
 
         System.out.println(product);

@@ -23,6 +23,9 @@ import java.math.RoundingMode;
 
 /**
  * @author MOHANTY
+ * class is made Immutable
+ * There are no setter method provided
+ * Instance Variables can only be accessed through constructor
  */
 public class Product {
     private int id;
@@ -33,36 +36,67 @@ public class Product {
 
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.10);
 
-    public Product() {
-        this.id = 0;
-        this.name = null;
-        this.price = BigDecimal.ZERO;
-        this.discount = BigDecimal.ZERO;
-        this.tax = BigDecimal.ZERO;
-    }
-
     /**
      * Resuse of constructor through this()
+     *
      * @param id
      * @param name
-     * @param price
      */
-    public Product(int id, String name,BigDecimal price) {
-        this(id,name);
-        this.price = price;
-    }
-
-    public Product(int id,String name) {
+    public Product(int id, String name) {
         this.id = id;
         this.name = name;
-        this.tax = BigDecimal.ONE;
     }
+
+    public Product(int id, String name, BigDecimal price, BigDecimal tax) {
+        this(id, name);
+        this.price = price;
+        this.tax = tax;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public BigDecimal getDiscount() {
+        return this.DISCOUNT_RATE;
+    }
+
+    public BigDecimal getTaxRate() {
+        return tax;
+    }
+
+    public BigDecimal calculateDiscount() {
+        return price
+                .multiply(DISCOUNT_RATE)
+                .setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal calculateTax() {
+        return price
+                .multiply(tax)
+                .setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal getTotalPrice() {
+        this.price = price.subtract(calculateDiscount());
+        this.price = price.add(calculateTax());
+        return price;
+    }
+
     /**
-     * @<code>Vaargs</code> implementation
      * @param values
+     * @<code>Vaargs</code> implementation
      */
-    public void setFiscalDetails(double... values) {
-        switch(values.length) {
+    private void setFiscalDetails(double... values) {
+        switch (values.length) {
             case 3:
                 tax = BigDecimal.valueOf(values[2]);
             case 2:
@@ -72,39 +106,9 @@ public class Product {
         }
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(final BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getDiscount() {
-        return price
-                .multiply(DISCOUNT_RATE)
-                .setScale(2, RoundingMode.HALF_UP);
-    }
-
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", name='" + name + '\'' + ", price=" + price + ", discount=" + getDiscount()
-                + ", tax="+tax +'}';
+        return "Product{" + "id=" + id + ", name='" + name + '\'' + ", initial Price=" + getPrice() + ", Selling price="
+                + getTotalPrice() + ", discount=" + getDiscount() + ", tax=" + calculateTax() + '}';
     }
 }
