@@ -16,22 +16,19 @@
  * IN THE SOFTWARE.
  */
 
-package labs.pm.app;
+package labs.pm.util;
 
-import labs.pm.data.Product;
-import labs.pm.util.Condition;
+public enum Condition {
+    HOT("Warning HOT!"),
+    WARM("Just Right!"),
+    COLD("Warning COLD!");
 
-import java.math.BigDecimal;
+    String caution;
+    private Condition(String caution) {
+        this.caution = caution;
+    }
 
-/**
- * @author MOHANTY
- */
-public class Shop {
-
-    public static void main(String[] args) {
-        Product product = new Product(1,"Tea",BigDecimal.valueOf(16),BigDecimal.valueOf(0.05), Condition.HOT);
-        //product.setFiscalDetails();
-
-        System.out.println(product);
+    public String getCaution() {
+        return caution;
     }
 }

@@ -18,6 +18,8 @@
 
 package labs.pm.data;
 
+import labs.pm.util.Condition;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -33,9 +35,17 @@ public class Product {
     private BigDecimal price;
     private BigDecimal tax;
     private BigDecimal discount;
-
+    private Condition condition;
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.10);
 
+    /**
+     * Instance initializer
+     */
+    {
+        this.price = BigDecimal.valueOf(20);
+        this.tax = BigDecimal.valueOf(0.10);
+        this.condition = Condition.WARM;
+    }
     /**
      * Resuse of constructor through this()
      *
@@ -47,10 +57,11 @@ public class Product {
         this.name = name;
     }
 
-    public Product(int id, String name, BigDecimal price, BigDecimal tax) {
+    public Product(int id, String name, BigDecimal price, BigDecimal tax, Condition condition) {
         this(id, name);
         this.price = price;
         this.tax = tax;
+        this.condition = condition;
     }
 
     public int getId() {
@@ -109,6 +120,6 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" + "id=" + id + ", name='" + name + '\'' + ", initial Price=" + getPrice() + ", Selling price="
-                + getTotalPrice() + ", discount=" + getDiscount() + ", tax=" + calculateTax() + '}';
+                + getTotalPrice() + ", discount=" + getDiscount() + ", tax=" + calculateTax() + "\nCustomer Note:" +condition.getCaution()+ '}';
     }
 }
