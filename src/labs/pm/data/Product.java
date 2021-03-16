@@ -36,6 +36,7 @@ public class Product {
     private BigDecimal tax;
     private BigDecimal discount;
     private Condition condition;
+    private Rating rating;
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.10);
 
     /**
@@ -45,6 +46,7 @@ public class Product {
         this.price = BigDecimal.valueOf(20);
         this.tax = BigDecimal.valueOf(0.10);
         this.condition = Condition.WARM;
+        this.rating = Rating.NOT_RATED;
     }
     /**
      * Resuse of constructor through this()
@@ -57,11 +59,12 @@ public class Product {
         this.name = name;
     }
 
-    public Product(int id, String name, BigDecimal price, BigDecimal tax, Condition condition) {
+    public Product(int id, String name, BigDecimal price, BigDecimal tax, Condition condition, Rating rating) {
         this(id, name);
         this.price = price;
         this.tax = tax;
         this.condition = condition;
+        this.rating = rating;
     }
 
     public int getId() {
@@ -120,6 +123,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" + "id=" + id + ", name='" + name + '\'' + ", initial Price=" + getPrice() + ", Selling price="
-                + getTotalPrice() + ", discount=" + getDiscount() + ", tax=" + calculateTax() + "\nCustomer Note:" +condition.getCaution()+ '}';
+                + getTotalPrice() + ", discount=" + getDiscount() + ", tax=" + calculateTax() + "\nCustomer Note:" +condition.getCaution()
+                + "\nRating= "+ rating.getStars()+ '}';
     }
 }

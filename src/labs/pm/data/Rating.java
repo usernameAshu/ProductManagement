@@ -16,24 +16,23 @@
  * IN THE SOFTWARE.
  */
 
-package labs.pm.app;
+package labs.pm.data;
 
-import labs.pm.data.Product;
-import labs.pm.data.Rating;
-import labs.pm.util.Condition;
+public enum Rating {
+    NOT_RATED("\u2606\u2606\u2606\u2606\u2606"),
+    ONE_STAR("\u2605\u2606\u2606\u2606\u2606"),
+    TWO_STAR("\u2605\u2605\u2606\u2606\u2606"),
+    THREE_STAR("\u2605\u2605\u2605\u2606\u2606"),
+    FOUR_STAR("\u2605\u2605\u2605\u2605\u2606"),
+    FIVE_STAR("\u2605\u2605\u2605\u2605\u2605");
 
-import java.math.BigDecimal;
+    private String stars;
 
-/**
- * @author MOHANTY
- */
-public class Shop {
+    private Rating(String stars) {
+        this.stars = stars;
+    }
 
-    public static void main(String[] args) {
-        Product product = new Product(1, "Tea", BigDecimal.valueOf(16), BigDecimal.valueOf(0.05), Condition.HOT,
-                Rating.THREE_STAR);
-        //product.setFiscalDetails();
-
-        System.out.println(product);
+    public String getStars() {
+        return stars;
     }
 }
