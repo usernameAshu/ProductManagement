@@ -37,30 +37,28 @@ public class Product {
     private BigDecimal discount;
     private Condition condition;
     private Rating rating;
+    private BigDecimal discountAmount;
+    private BigDecimal taxAmount;
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.10);
 
     /**
      * Instance initializer
      */
     {
-        this.price = BigDecimal.valueOf(20);
-        this.tax = BigDecimal.valueOf(0.10);
-        this.condition = Condition.WARM;
-        this.rating = Rating.NOT_RATED;
+        this.discountAmount = BigDecimal.ZERO;
+        this.taxAmount = BigDecimal.ZERO;
     }
-    /**
-     * Resuse of constructor through this()
-     *
-     * @param id
-     * @param name
-     */
+    public Product() {
+        this(0, "no-name");
+    }
+
     public Product(int id, String name) {
-        this.id = id;
-        this.name = name;
+        this(id, name, BigDecimal.ZERO, BigDecimal.ZERO, Condition.NOT_AVAILABLE, Rating.NOT_RATED);
     }
 
     public Product(int id, String name, BigDecimal price, BigDecimal tax, Condition condition, Rating rating) {
-        this(id, name);
+        this.id = id;
+        this.name = name;
         this.price = price;
         this.tax = tax;
         this.condition = condition;
@@ -79,7 +77,7 @@ public class Product {
         return price;
     }
 
-    public BigDecimal getDiscount() {
+    public BigDecimal getDiscountRate() {
         return this.DISCOUNT_RATE;
     }
 
@@ -87,16 +85,34 @@ public class Product {
         return tax;
     }
 
-    public BigDecimal calculateDiscount() {
-        return price
+    public Condition getCondition() {
+        return condition;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public BigDecimal getTaxAmount() {
+        return taxAmount;
+    }
+
+    private BigDecimal calculateDiscount() {
+        discountAmount = price
                 .multiply(DISCOUNT_RATE)
                 .setScale(2, RoundingMode.HALF_UP);
+        return discountAmount;
     }
 
     private BigDecimal calculateTax() {
-        return price
+        taxAmount = price
                 .multiply(tax)
                 .setScale(2, RoundingMode.HALF_UP);
+        return taxAmount;
     }
 
     public BigDecimal getTotalPrice() {
@@ -123,7 +139,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" + "id=" + id + ", name='" + name + '\'' + ", initial Price=" + getPrice() + ", Selling price="
-                + getTotalPrice() + ", discount=" + getDiscount() + ", tax=" + calculateTax() + "\nCustomer Note:" +condition.getCaution()
-                + "\nRating= "+ rating.getStars()+ '}';
+                + getTotalPrice() + ", discount=" + getDiscountAmount() + ", tax=" + getTaxAmount() + "\nCustomer Note:"
+                + condition.getCaution() + "\nRating= " + rating.getStars() + '}';
     }
 }

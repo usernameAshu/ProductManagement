@@ -30,10 +30,23 @@ import java.math.BigDecimal;
 public class Shop {
 
     public static void main(String[] args) {
-        Product product = new Product(1, "Tea", BigDecimal.valueOf(16), BigDecimal.valueOf(0.05), Condition.HOT,
+        Product product1 = new Product(1, "Tea  ", BigDecimal.valueOf(16), BigDecimal.valueOf(0.05), Condition.HOT,
                 Rating.THREE_STAR);
-        //product.setFiscalDetails();
 
-        System.out.println(product);
+        Product product2 = new Product(2, "Coffee");
+
+        Product product3 = new Product();
+
+        System.out.println("id"+"\t"+"name"+"\t"+"Ini-Prc"+"\t"+"Final-Prc"+"\t"+"Disc"+"\t"+"tax"+"\t"+"\t"+"caution"+"\t"+"ratings");
+        displayProduct(product1);
+        displayProduct(product2);
+        displayProduct(product3);
+    }
+
+    private static void displayProduct(Product product1) {
+        System.out.println(
+                product1.getId() + "\t" + product1.getName() + "\t" + product1.getPrice() + "\t"
+                        + product1.getTotalPrice() + "\t" + product1.getDiscountAmount() + "\t" + product1.getTaxAmount() +"\t"
+                        + product1.getCondition().getCaution() + "\t" + product1.getRating().getStars());
     }
 }

@@ -21,7 +21,8 @@ package labs.pm.util;
 public enum Condition {
     HOT("Warning HOT!"),
     WARM("Just Right!"),
-    COLD("Warning COLD!");
+    COLD("Warning COLD!"),
+    NOT_AVAILABLE("NA");
 
     String caution;
     private Condition(String caution) {
