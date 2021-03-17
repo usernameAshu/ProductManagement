@@ -30,23 +30,26 @@ import java.math.BigDecimal;
 public class Shop {
 
     public static void main(String[] args) {
-        Product product1 = new Product(1, "Tea  ", BigDecimal.valueOf(16), BigDecimal.valueOf(0.05), Condition.HOT,
-                Rating.THREE_STAR);
+        Product product1 = new Product(1,"Coffee",BigDecimal.valueOf(15), Rating.FIVE_STAR, Condition.HOT);
+        Product product2 = new Product(2,"Cookie",BigDecimal.valueOf(50),Rating.FOUR_STAR);
+        Product product3 = new Product(3,"Ice-tea",BigDecimal.valueOf(30));
+        Product product4 = new Product();
+        Product product3_1 = product3.applyRating(Rating.TWO_STAR);
+        Product product1_1 = product1.applyRating(Rating.ONE_STAR);
 
-        Product product2 = new Product(2, "Coffee");
-
-        Product product3 = new Product();
-
-        System.out.println("id"+"\t"+"name"+"\t"+"Ini-Prc"+"\t"+"Final-Prc"+"\t"+"Disc"+"\t"+"tax"+"\t"+"\t"+"caution"+"\t"+"ratings");
+        System.out.println("id"+"\t"+"name"+"\t"+"Ini-Prc"+"\t"+"Final-Prc"+"\t"+"Disc"+"\t"+"tax"+"\t"+"\t"+"ratings"+"\t\t"+"caution");
         displayProduct(product1);
         displayProduct(product2);
         displayProduct(product3);
+        displayProduct(product4);
+        displayProduct(product3_1);
+        displayProduct(product1_1);
     }
 
     private static void displayProduct(Product product1) {
         System.out.println(
-                product1.getId() + "\t" + product1.getName() + "\t" + product1.getPrice() + "\t"
-                        + product1.getTotalPrice() + "\t" + product1.getDiscountAmount() + "\t" + product1.getTaxAmount() +"\t"
-                        + product1.getCondition().getCaution() + "\t" + product1.getRating().getStars());
+                product1.getId() + "\t" + product1.getName() + "\t" + product1.getPrice() + "\t\t"
+                        + product1.getTotalPrice() + "\t\t" + product1.getDiscountAmount() + "\t" + product1.getTaxAmount() +"\t"
+                        + product1.getRating().getStars()+ "\t\t" + product1.getCondition().getCaution()  );
     }
 }

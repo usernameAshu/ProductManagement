@@ -40,27 +40,34 @@ public class Product {
     private BigDecimal discountAmount;
     private BigDecimal taxAmount;
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.10);
+    public static final BigDecimal TAX_RATE = BigDecimal.valueOf(0.15);
 
     /**
      * Instance initializer
-     */
-    {
+     */ {
         this.discountAmount = BigDecimal.ZERO;
         this.taxAmount = BigDecimal.ZERO;
     }
+
+    /**
+     * Constructor chaining
+     */
     public Product() {
-        this(0, "no-name");
+        this(0, "no-name", BigDecimal.ZERO);
     }
 
-    public Product(int id, String name) {
-        this(id, name, BigDecimal.ZERO, BigDecimal.ZERO, Condition.NOT_AVAILABLE, Rating.NOT_RATED);
+    public Product(int id, String name, BigDecimal price) {
+        this(id, name, price, Rating.NOT_RATED);
     }
 
-    public Product(int id, String name, BigDecimal price, BigDecimal tax, Condition condition, Rating rating) {
+    public Product(int id, String name, BigDecimal price, Rating rating) {
+        this(id, name, price, rating, Condition.NOT_AVAILABLE);
+    }
+
+    public Product(int id, String name, BigDecimal price, Rating rating, Condition condition) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.tax = tax;
         this.condition = condition;
         this.rating = rating;
     }
@@ -78,11 +85,11 @@ public class Product {
     }
 
     public BigDecimal getDiscountRate() {
-        return this.DISCOUNT_RATE;
+        return DISCOUNT_RATE;
     }
 
     public BigDecimal getTaxRate() {
-        return tax;
+        return TAX_RATE;
     }
 
     public Condition getCondition() {
@@ -110,7 +117,7 @@ public class Product {
 
     private BigDecimal calculateTax() {
         taxAmount = price
-                .multiply(tax)
+                .multiply(TAX_RATE)
                 .setScale(2, RoundingMode.HALF_UP);
         return taxAmount;
     }
@@ -141,5 +148,14 @@ public class Product {
         return "Product{" + "id=" + id + ", name='" + name + '\'' + ", initial Price=" + getPrice() + ", Selling price="
                 + getTotalPrice() + ", discount=" + getDiscountAmount() + ", tax=" + getTaxAmount() + "\nCustomer Note:"
                 + condition.getCaution() + "\nRating= " + rating.getStars() + '}';
+    }
+
+    /**
+     * Method to return Product object with Ratings
+     * @param rating
+     * @return Product object
+     */
+    public Product applyRating(Rating rating) {
+        return new Product(this.id, this.name, this.price, rating);
     }
 }
