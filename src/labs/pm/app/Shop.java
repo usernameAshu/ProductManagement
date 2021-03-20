@@ -18,7 +18,6 @@
 
 package labs.pm.app;
 
-import labs.pm.data.Food;
 import labs.pm.data.Product;
 import labs.pm.data.Rating;
 import labs.pm.util.Condition;
