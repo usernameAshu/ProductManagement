@@ -41,26 +41,82 @@ public class Test {
         System.out.println("food1.equals(food2) :" + food1.equals(food2));*/
 
         /**
-         * String Pool
+         * String Pool  String Object
          */
         String str1 = "Ashutosh";
         String str2 = "Ashutosh";
         //        System.out.println("str1 == str2  :"+ (str1 == str2));
         //        System.out.println("str1.equals(str2)  :"+str1.equals(str2));
 
-        /**
-         * String Object
-         */
         String obj1 = new String("Ashutosh");
         String obj2 = new String("Ashutosh");
         //        System.out.println("obj1 == obj2  :"+ (obj1 == obj2));
         //        System.out.println("obj1.equals(obj2)  :"+obj1.equals(obj2));
+        boolean strObj = str1 == obj1; //false
+        boolean strObjVal = str1.equals(obj1); //true
 
         /**
          * Object class method: hashCode()
          */
         int hash1 = obj1.hashCode();
         int hash2 = obj2.hashCode();
-        System.out.println((hash1 == hash2) + "\n" + hash1 + " " + hash2);
+        //System.out.println((hash1 == hash2) + "\n" + hash1 + " " + hash2);
+
+        Car carName = CarFactory.produceCar("Tata");
+        String name = carName.carName(); //Tata Hexa
+    }
+}
+
+abstract class Car {
+    public abstract String carName();
+    public abstract int topSpeed();
+
+}
+
+/**
+ * Factory Design Pattern
+ */
+class CarFactory {
+    public static Car produceCar(String carBrand) {
+        switch (carBrand) {
+            case "Nissan":
+                return new Nissan();
+            case "Tata":
+                return new Tata();
+            default:
+                return null;
+        }
+    }
+}
+
+class Nissan extends  Car {
+    @Override
+    public String carName() {
+        return "Nissan Micra";
+    }
+
+    @Override
+    public int topSpeed() {
+        return 100;
+    }
+
+    public String countryOfOrigin() {
+        return "Japan";
+    }
+}
+
+class Tata extends Car {
+    @Override
+    public String carName() {
+        return "Tata Hexa";
+    }
+
+    @Override
+    public int topSpeed() {
+        return 200;
+    }
+
+    public String founderName() {
+        return "JK Tata";
     }
 }
