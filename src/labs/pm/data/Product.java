@@ -30,9 +30,9 @@ import java.math.RoundingMode;
  * Instance Variables can only be accessed through constructor
  */
 public class Product {
-    private int id;
-    private String name;
-    private BigDecimal price;
+    protected int id;
+    protected String name;
+    protected BigDecimal price;
     private BigDecimal tax;
     private BigDecimal discount;
     private Condition condition;
@@ -152,6 +152,7 @@ public class Product {
 
     /**
      * Method to return Product object with Ratings
+     *
      * @param rating
      * @return Product object
      */
