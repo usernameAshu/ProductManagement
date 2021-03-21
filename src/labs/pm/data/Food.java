@@ -40,6 +40,10 @@ public class Food extends Product {
         this.bestBefore = bestBefore;
     }
 
+    public LocalDate getBestBefore() {
+        return bestBefore;
+    }
+
     @Override
     protected BigDecimal calculateDiscount() {
         return bestBefore.equals(LocalDate.now())

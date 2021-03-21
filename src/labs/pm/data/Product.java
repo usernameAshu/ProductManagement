@@ -22,6 +22,7 @@ import labs.pm.util.Condition;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 
 /**
  * @author MOHANTY
@@ -109,6 +110,10 @@ public abstract class Product {
         return taxAmount;
     }
 
+    public LocalDate getBestBefore() {
+        return LocalDate.now();
+    }
+
     protected BigDecimal calculateDiscount() {
         discountAmount = price
                 .multiply(DISCOUNT_RATE)
@@ -157,5 +162,5 @@ public abstract class Product {
      * @param rating
      * @return Product object
      */
-    public abstract Product applyRating(Rating rating) ;
+    public abstract Product applyRating(Rating rating);
 }

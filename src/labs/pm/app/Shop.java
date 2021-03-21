@@ -63,6 +63,8 @@ public class Shop {
         Product drink = new Drink(1, "Mojito", BigDecimal.valueOf(120.50), Rating.FOUR_STAR);
         boolean foodTest = Objects.equals(food1, food2); //true
         drink.toString(); //Drink: 1 Mojito 120.5 FOUR_STAR NOT_AVAILABLE}
+        Product drink2 = drink.applyRating(Rating.TWO_STAR);
+        drink2.toString();//Drink: 1 Mojito 120.5 TWO_STAR NOT_AVAILABLE
     }
 
 }
