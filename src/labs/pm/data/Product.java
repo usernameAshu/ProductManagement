@@ -108,14 +108,14 @@ public class Product {
         return taxAmount;
     }
 
-    private BigDecimal calculateDiscount() {
+    protected BigDecimal calculateDiscount() {
         discountAmount = price
                 .multiply(DISCOUNT_RATE)
                 .setScale(2, RoundingMode.HALF_UP);
         return discountAmount;
     }
 
-    private BigDecimal calculateTax() {
+    protected BigDecimal calculateTax() {
         taxAmount = price
                 .multiply(TAX_RATE)
                 .setScale(2, RoundingMode.HALF_UP);

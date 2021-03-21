@@ -19,15 +19,43 @@
 package labs.pm.data;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.util.Objects;
 
-public class Drink extends Product{
+public class Drink extends Product {
 
     public Drink(int id, String name, BigDecimal price, Rating rating) {
         super(id, name, price, rating);
     }
 
     @Override
-    public String toString() {
-        return "Drink: " + id + " " + name + " "+ price + '}';
+    protected BigDecimal calculateDiscount() {
+        LocalTime now = LocalTime.now();
+        return now.isBefore(LocalTime.of(18, 30)) && now.isAfter(LocalTime.of(17, 30))
+                ? super.calculateDiscount()
+                : BigDecimal.ZERO;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Drink) {
+            Drink other = (Drink)obj;
+            return this.id == other.id && this.name == other.name;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Drink: " + id + " " + name + " " + price + '}';
+    }
+
 }

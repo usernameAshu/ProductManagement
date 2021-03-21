@@ -36,6 +36,11 @@ public class Food extends Product {
     }
 
     @Override
+    protected BigDecimal calculateDiscount() {
+        return bestBefore.equals(LocalDate.now())?super.calculateDiscount():BigDecimal.ZERO;
+    }
+
+    @Override
     public String toString() {
         return "Food Class:  " + this.id + " " + this.name + " " + this.price + " " + this.bestBefore;
     }
@@ -45,8 +50,8 @@ public class Food extends Product {
         if (this == obj) {
             return true;
         }
-        if (obj != null && (obj instanceof Food) && Objects.equals(this.getClass(), obj.getClass())) {
-
+        if (obj != null && Objects.equals(this.getClass(), obj.getClass())) {
+//        if((obj instanceof Food)) {
             Food other = (Food)obj;
             return (this.id == other.id) && Objects.equals(this.name, other.name);
         }

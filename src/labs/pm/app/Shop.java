@@ -29,10 +29,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Objects;
 
-import labs.pm.util.CustomDisplay;
-
-import static labs.pm.util.CustomDisplay.displayProduct;
-
 /**
  * @author MOHANTY
  */
@@ -63,11 +59,11 @@ public class Shop {
         LocalDate bestBefore = LocalDate
                 .now(ZoneId.of(ZoneId.SHORT_IDS.get(countryTimeZone)))
                 .plusMonths(6L);
-        Product food = new Food(1, "Rice", BigDecimal.valueOf(20.50), bestBefore);
+        Product food1 = new Food(1, "Rice", BigDecimal.valueOf(20.50), bestBefore);
         Product food2 = new Food(1, "Rice", BigDecimal.valueOf(20.50), bestBefore);
         Product drink = new Drink(1, "Mojito", BigDecimal.valueOf(120.50), Rating.FOUR_STAR);
 
-        boolean foodTest = Objects.equals(food,food2); //true
+        boolean foodTest = Objects.equals(food1,food2); //true
     }
 
 
