@@ -24,15 +24,15 @@ import java.util.Objects;
 
 public class Drink extends Product {
 
-    public Drink(int id, String name, BigDecimal price, Rating rating) {
+    Drink(int id, String name, BigDecimal price, Rating rating) {
         super(id, name, price, rating);
     }
 
     @Override
-    protected BigDecimal calculateDiscount() {
+    public BigDecimal getDiscount() {
         LocalTime now = LocalTime.now();
         return now.isBefore(LocalTime.of(18, 30)) && now.isAfter(LocalTime.of(17, 30))
-                ? super.calculateDiscount()
+                ? super.getDiscount()
                 : BigDecimal.ZERO;
     }
 
@@ -56,11 +56,6 @@ public class Drink extends Product {
             return getId() == other.getId() && getName() == other.getName();
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "Drink: " + getId() + " " + getName() + " " + getPrice() + " " + getRating() + " " + getCondition();
     }
 
 }

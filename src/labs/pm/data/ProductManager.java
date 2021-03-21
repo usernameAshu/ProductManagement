@@ -16,18 +16,16 @@
  * IN THE SOFTWARE.
  */
 
-package labs.pm.util;
+package labs.pm.data;
 
-import labs.pm.data.Product;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
-public class CustomDisplay {
-    public static void displayProduct(Product product1) {
-        System.out.println(product1.getId() + "\t" + product1.getName() + "\t" + product1.getPrice() + "\t\t"
-                + product1.getTotalPrice() + "\t\t" + product1.getDiscountAmount() + "\t" + product1.getTaxAmount()
-                + "\t" + product1
-                .getRating()
-                .getStars() + "\t\t" + product1
-                .getCondition()
-                .getCaution());
+public class ProductManager {
+    public static Product createProduct(int id, String name, BigDecimal price, Rating rating, LocalDate bestBefore ) {
+        return new Food(id,name,price,bestBefore,rating);
+    }
+    public static Product createProduct(int id, String name, BigDecimal price, Rating rating) {
+        return new Drink(id, name, price, rating);
     }
 }

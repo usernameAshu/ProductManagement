@@ -18,9 +18,8 @@
 
 package labs.pm.app;
 
-import labs.pm.data.Drink;
-import labs.pm.data.Food;
 import labs.pm.data.Product;
+import labs.pm.data.ProductManager;
 import labs.pm.data.Rating;
 
 import java.math.BigDecimal;
@@ -34,37 +33,37 @@ import java.util.Objects;
 public class Shop {
 
     public static final String COUNTRY_TIME_ZONE = "IST";
-    public static final LocalDate LOCAL_DATE = LocalDate
+    public static final LocalDate BEST_BEFORE = LocalDate
             .now(ZoneId.of(ZoneId.SHORT_IDS.get(COUNTRY_TIME_ZONE)))
             .plusMonths(6L);
 
     public static void main(String[] args) {
-        Product product1 = new Food(1, "Coffee", BigDecimal.valueOf(15), LOCAL_DATE);
-        Product product2 = new Drink(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR);
-        Product product3 = new Food(3, "Ice-tea", BigDecimal.valueOf(30),LOCAL_DATE);
+        Product coffeeDrink = ProductManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.FIVE_STAR);
+        Product cookieFood =
+                ProductManager.createProduct(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR, BEST_BEFORE);
+        Product iceTea = ProductManager.createProduct(3, "Ice-tea", BigDecimal.valueOf(30), Rating.THREE_STAR);
 
-        Product product3_1 = product3.applyRating(Rating.TWO_STAR);
-        Product product1_1 = product1.applyRating(Rating.ONE_STAR);
+        Product iceTeaRating = iceTea.applyRating(Rating.TWO_STAR);
+        Product cookieFoodRating = cookieFood.applyRating(Rating.ONE_STAR);
 
-        /*System.out.println("id"+"\t"+"name"+"\t"+"Ini-Prc"+"\t"+"Final-Prc"+"\t"+"Disc"+"\t"+"tax"+"\t"+"\t"
-                +"ratings"+"\t\t"+"caution");
-        displayProduct(product1);
-        displayProduct(product2);
-        displayProduct(product3);
-        displayProduct(product4);
-        displayProduct(product3_1);
-        displayProduct(product1_1);
-*/
         LocalDate bestBefore = LocalDate
                 .now(ZoneId.of(ZoneId.SHORT_IDS.get(COUNTRY_TIME_ZONE)))
                 .plusMonths(6L);
-        Product food1 = new Food(1, "Rice", BigDecimal.valueOf(20.50), bestBefore);
-        Product food2 = new Food(1, "Rice", BigDecimal.valueOf(20.50), bestBefore);
-        Product drink = new Drink(1, "Mojito", BigDecimal.valueOf(120.50), Rating.FOUR_STAR);
-        boolean foodTest = Objects.equals(food1, food2); //true
-        drink.toString(); //Drink: 1 Mojito 120.5 FOUR_STAR NOT_AVAILABLE}
-        Product drink2 = drink.applyRating(Rating.TWO_STAR);
-        drink2.toString();//Drink: 1 Mojito 120.5 TWO_STAR NOT_AVAILABLE
+        Product rice1 =
+                ProductManager.createProduct(1, "Rice", BigDecimal.valueOf(20.50), Rating.FIVE_STAR, BEST_BEFORE);
+        Product rice2 =
+                ProductManager.createProduct(1, "Rice", BigDecimal.valueOf(20.50), Rating.FIVE_STAR, BEST_BEFORE);
+        Product mojito = ProductManager.createProduct(1, "Mojito", BigDecimal.valueOf(120.50), Rating.FOUR_STAR);
+        boolean foodTest = Objects.equals(rice1, rice2); //true
+        mojito.toString();
+        Product mojitoRating = mojito.applyRating(Rating.TWO_STAR);
+        mojitoRating.toString();
+
+        coffeeDrink.toString();
+        cookieFood.toString();
+        cookieFoodRating.toString();
+        iceTea.toString();
+        iceTeaRating.toString();
     }
 
 }

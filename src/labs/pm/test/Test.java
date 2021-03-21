@@ -18,8 +18,9 @@
 
 package labs.pm.test;
 
-import labs.pm.data.Food;
 import labs.pm.data.Product;
+import labs.pm.data.ProductManager;
+import labs.pm.data.Rating;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -37,15 +38,15 @@ public class Test {
         /**
          * Testing Object class method: toString()
          */
-        Product food = new Food(1, "Burger", BigDecimal.valueOf(20.50), bestBefore);
+        Product food = ProductManager.createProduct(1, "Cookie", BigDecimal.valueOf(10), Rating.FIVE_STAR);
         String msg = food.toString();
         //System.out.println(msg);
 
         /**
          * Testing Object class method: equals()
          */
-        Product food1 = new Food(1, "Cookie", BigDecimal.valueOf(10), bestBefore);
-        Product food2 = new Food(1, "Cookie", BigDecimal.valueOf(10), bestBefore);
+        Product food1 = ProductManager.createProduct(1, "Cookie", BigDecimal.valueOf(10), Rating.FIVE_STAR);
+        Product food2 = ProductManager.createProduct(1, "Cookie", BigDecimal.valueOf(10), Rating.FIVE_STAR);
         /*System.out.println("food1 == food2 :" + (food1 == food2));
         System.out.println("food1.equals(food2) :" + food1.equals(food2));*/
 

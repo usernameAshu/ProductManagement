@@ -29,13 +29,13 @@ public class Food extends Product {
 
     private LocalDate bestBefore;
 
-    public Food(int id, String name, BigDecimal price, LocalDate bestBefore) {
+    Food(int id, String name, BigDecimal price, LocalDate bestBefore) {
         super(id, name, price);
         this.bestBefore = bestBefore;
 
     }
 
-    public Food(int id, String name, BigDecimal price, LocalDate bestBefore, Rating rating) {
+    Food(int id, String name, BigDecimal price, LocalDate bestBefore, Rating rating) {
         super(id, name, price, rating);
         this.bestBefore = bestBefore;
     }
@@ -45,21 +45,15 @@ public class Food extends Product {
     }
 
     @Override
-    protected BigDecimal calculateDiscount() {
+    public BigDecimal getDiscount() {
         return bestBefore.equals(LocalDate.now())
-                ? super.calculateDiscount()
+                ? super.getDiscount()
                 : BigDecimal.ZERO;
     }
 
     @Override
     public Product applyRating(Rating rating) {
-        return new Food(getId(), getName(), getPrice(), bestBefore);
-    }
-
-    @Override
-    public String toString() {
-        return "Food Class:  " + getId() + " " + getName() + " " + getPrice() + " " + getRating() + " " + this.bestBefore + " "
-                + getCondition();
+        return new Food(getId(), getName(), getPrice(), bestBefore, rating);
     }
 
     @Override

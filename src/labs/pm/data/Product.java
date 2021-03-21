@@ -54,23 +54,14 @@ public abstract class Product {
     /**
      * Constructor chaining
      */
-    public Product() {
-        this(0, "no-name", BigDecimal.ZERO);
-    }
-
-    public Product(int id, String name, BigDecimal price) {
+    Product(int id, String name, BigDecimal price) {
         this(id, name, price, Rating.NOT_RATED);
     }
 
-    public Product(int id, String name, BigDecimal price, Rating rating) {
-        this(id, name, price, rating, Condition.NOT_AVAILABLE);
-    }
-
-    public Product(int id, String name, BigDecimal price, Rating rating, Condition condition) {
+    Product(int id, String name, BigDecimal price, Rating rating) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.condition = condition;
         this.rating = rating;
     }
 
@@ -90,77 +81,39 @@ public abstract class Product {
         return DISCOUNT_RATE;
     }
 
-    public BigDecimal getTaxRate() {
-        return TAX_RATE;
-    }
-
-    public Condition getCondition() {
-        return condition;
-    }
-
     public Rating getRating() {
         return rating;
-    }
-
-    public BigDecimal getDiscountAmount() {
-        return discountAmount;
-    }
-
-    public BigDecimal getTaxAmount() {
-        return taxAmount;
     }
 
     public LocalDate getBestBefore() {
         return LocalDate.now();
     }
 
-    protected BigDecimal calculateDiscount() {
+    public BigDecimal getDiscount() {
         discountAmount = price
                 .multiply(DISCOUNT_RATE)
                 .setScale(2, RoundingMode.HALF_UP);
         return discountAmount;
     }
 
-    protected BigDecimal calculateTax() {
+    protected BigDecimal getTax() {
         taxAmount = price
                 .multiply(TAX_RATE)
                 .setScale(2, RoundingMode.HALF_UP);
         return taxAmount;
     }
 
-    public BigDecimal getTotalPrice() {
-        this.price = price.subtract(calculateDiscount());
-        this.price = price.add(calculateTax());
-        return price;
-    }
-
     /**
-     * @param values
-     * @<code>Vaargs</code> implementation
-     */
-    private void setFiscalDetails(double... values) {
-        switch (values.length) {
-            case 3:
-                tax = BigDecimal.valueOf(values[2]);
-            case 2:
-                discount = BigDecimal.valueOf(values[1]);
-            case 1:
-                price = BigDecimal.valueOf(values[0]);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" + "id=" + id + ", name='" + name + '\'' + ", initial Price=" + getPrice() + ", Selling price="
-                + getTotalPrice() + ", discount=" + getDiscountAmount() + ", tax=" + getTaxAmount() + "\nCustomer Note:"
-                + condition.getCaution() + "\nRating= " + rating.getStars() + '}';
-    }
-
-    /**
-     * Method to return Product object with Ratings
+     * Abstract method to return Product object with Ratings
      *
      * @param rating
      * @return Product object
      */
     public abstract Product applyRating(Rating rating);
+
+    @Override
+    public String toString() {
+        return getId() + " " + getName() + " " + getPrice() + " " + getDiscount() + " " + getRating() + " "
+                + getBestBefore() + " ";
+    }
 }
