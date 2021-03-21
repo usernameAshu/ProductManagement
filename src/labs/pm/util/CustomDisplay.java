@@ -16,45 +16,18 @@
  * IN THE SOFTWARE.
  */
 
-package labs.pm.data;
+package labs.pm.util;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Objects;
+import labs.pm.data.Product;
 
-/**
- * @author MOHANTY
- */
-public class Food extends Product {
-
-    private LocalDate bestBefore;
-
-    public Food(int id, String name, BigDecimal price, LocalDate bestBefore) {
-        super(id, name, price);
-        this.bestBefore = bestBefore;
-
-    }
-
-    @Override
-    public String toString() {
-        return "Food Class:  " + this.id + " " + this.name + " " + this.price + " " + this.bestBefore;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj != null && (obj instanceof Food) && Objects.equals(this.getClass(), obj.getClass())) {
-
-            Food other = (Food)obj;
-            return (this.id == other.id) && Objects.equals(this.name, other.name);
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.id, this.name);
+public class CustomDisplay {
+    public static void displayProduct(Product product1) {
+        System.out.println(product1.getId() + "\t" + product1.getName() + "\t" + product1.getPrice() + "\t\t"
+                + product1.getTotalPrice() + "\t\t" + product1.getDiscountAmount() + "\t" + product1.getTaxAmount()
+                + "\t" + product1
+                .getRating()
+                .getStars() + "\t\t" + product1
+                .getCondition()
+                .getCaution());
     }
 }

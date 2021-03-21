@@ -22,21 +22,30 @@ import labs.pm.data.Food;
 import labs.pm.data.Product;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class Test {
+
+    public static final String countryTimeZone = "IST";
+
     public static void main(String[] args) {
+
+        LocalDate bestBefore = LocalDate
+                .now(ZoneId.of(ZoneId.SHORT_IDS.get(countryTimeZone)))
+                .plusMonths(6L);
         /**
          * Testing Object class method: toString()
          */
-        Product food = new Food(1, "Burger", BigDecimal.valueOf(20.50));
+        Product food = new Food(1, "Burger", BigDecimal.valueOf(20.50), bestBefore);
         String msg = food.toString();
         //System.out.println(msg);
 
         /**
          * Testing Object class method: equals()
          */
-        Product food1 = new Food(1, "Cookie", BigDecimal.valueOf(10));
-        Product food2 = new Food(1, "Cookie", BigDecimal.valueOf(10));
+        Product food1 = new Food(1, "Cookie", BigDecimal.valueOf(10), bestBefore);
+        Product food2 = new Food(1, "Cookie", BigDecimal.valueOf(10), bestBefore);
         /*System.out.println("food1 == food2 :" + (food1 == food2));
         System.out.println("food1.equals(food2) :" + food1.equals(food2));*/
 
@@ -69,6 +78,7 @@ public class Test {
 
 abstract class Car {
     public abstract String carName();
+
     public abstract int topSpeed();
 
 }
@@ -89,7 +99,7 @@ class CarFactory {
     }
 }
 
-class Nissan extends  Car {
+class Nissan extends Car {
     @Override
     public String carName() {
         return "Nissan Micra";
