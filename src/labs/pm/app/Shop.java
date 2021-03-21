@@ -22,7 +22,6 @@ import labs.pm.data.Drink;
 import labs.pm.data.Food;
 import labs.pm.data.Product;
 import labs.pm.data.Rating;
-import labs.pm.util.Condition;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -34,16 +33,16 @@ import java.util.Objects;
  */
 public class Shop {
 
-    public static final String countryTimeZone = "IST";
-    LocalDate bestBefore = LocalDate
-            .now(ZoneId.of(ZoneId.SHORT_IDS.get(countryTimeZone)))
+    public static final String COUNTRY_TIME_ZONE = "IST";
+    public static final LocalDate LOCAL_DATE = LocalDate
+            .now(ZoneId.of(ZoneId.SHORT_IDS.get(COUNTRY_TIME_ZONE)))
             .plusMonths(6L);
 
     public static void main(String[] args) {
-        Product product1 = new Product(1, "Coffee", BigDecimal.valueOf(15), Rating.FIVE_STAR, Condition.HOT);
-        Product product2 = new Product(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR);
-        Product product3 = new Product(3, "Ice-tea", BigDecimal.valueOf(30));
-        Product product4 = new Product();
+        Product product1 = new Food(1, "Coffee", BigDecimal.valueOf(15), LOCAL_DATE);
+        Product product2 = new Drink(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR);
+        Product product3 = new Food(3, "Ice-tea", BigDecimal.valueOf(30),LOCAL_DATE);
+
         Product product3_1 = product3.applyRating(Rating.TWO_STAR);
         Product product1_1 = product1.applyRating(Rating.ONE_STAR);
 
@@ -57,14 +56,13 @@ public class Shop {
         displayProduct(product1_1);
 */
         LocalDate bestBefore = LocalDate
-                .now(ZoneId.of(ZoneId.SHORT_IDS.get(countryTimeZone)))
+                .now(ZoneId.of(ZoneId.SHORT_IDS.get(COUNTRY_TIME_ZONE)))
                 .plusMonths(6L);
         Product food1 = new Food(1, "Rice", BigDecimal.valueOf(20.50), bestBefore);
         Product food2 = new Food(1, "Rice", BigDecimal.valueOf(20.50), bestBefore);
         Product drink = new Drink(1, "Mojito", BigDecimal.valueOf(120.50), Rating.FOUR_STAR);
-
-        boolean foodTest = Objects.equals(food1,food2); //true
+        boolean foodTest = Objects.equals(food1, food2); //true
+        drink.toString(); //Drink: 1 Mojito 120.5 FOUR_STAR NOT_AVAILABLE}
     }
-
 
 }

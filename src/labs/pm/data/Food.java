@@ -35,14 +35,27 @@ public class Food extends Product {
 
     }
 
+    public Food(int id, String name, BigDecimal price, LocalDate bestBefore, Rating rating) {
+        super(id, name, price, rating);
+        this.bestBefore = bestBefore;
+    }
+
     @Override
     protected BigDecimal calculateDiscount() {
-        return bestBefore.equals(LocalDate.now())?super.calculateDiscount():BigDecimal.ZERO;
+        return bestBefore.equals(LocalDate.now())
+                ? super.calculateDiscount()
+                : BigDecimal.ZERO;
+    }
+
+    @Override
+    public Product applyRating(Rating rating) {
+        return new Food(getId(), getName(), getPrice(), bestBefore);
     }
 
     @Override
     public String toString() {
-        return "Food Class:  " + this.id + " " + this.name + " " + this.price + " " + this.bestBefore;
+        return "Food Class:  " + getId() + " " + getName() + " " + getPrice() + " " + getRating() + " " + this.bestBefore + " "
+                + getCondition();
     }
 
     @Override
@@ -51,15 +64,15 @@ public class Food extends Product {
             return true;
         }
         if (obj != null && Objects.equals(this.getClass(), obj.getClass())) {
-//        if((obj instanceof Food)) {
+            //        if((obj instanceof Food)) {
             Food other = (Food)obj;
-            return (this.id == other.id) && Objects.equals(this.name, other.name);
+            return (getId() == other.getId()) && Objects.equals(getName(), other.getName());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.name);
+        return Objects.hash(getId(), getName());
     }
 }

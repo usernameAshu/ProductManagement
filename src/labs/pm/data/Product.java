@@ -29,14 +29,15 @@ import java.math.RoundingMode;
  * There are no setter method provided
  * Instance Variables can only be accessed through constructor
  */
-public class Product {
-    protected int id;
-    protected String name;
-    protected BigDecimal price;
+public abstract class Product {
+    private int id;
+    private String name;
+    private BigDecimal price;
+    private Rating rating;
+    private Condition condition;
+
     private BigDecimal tax;
     private BigDecimal discount;
-    private Condition condition;
-    private Rating rating;
     private BigDecimal discountAmount;
     private BigDecimal taxAmount;
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.10);
@@ -156,7 +157,5 @@ public class Product {
      * @param rating
      * @return Product object
      */
-    public Product applyRating(Rating rating) {
-        return new Product(this.id, this.name, this.price, rating);
-    }
+    public abstract Product applyRating(Rating rating) ;
 }

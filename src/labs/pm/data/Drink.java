@@ -37,8 +37,13 @@ public class Drink extends Product {
     }
 
     @Override
+    public Product applyRating(Rating rating) {
+        return new Drink(getId(), getName(), getPrice(), rating);
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(getId(), getName());
     }
 
     @Override
@@ -48,14 +53,14 @@ public class Drink extends Product {
         }
         if (obj instanceof Drink) {
             Drink other = (Drink)obj;
-            return this.id == other.id && this.name == other.name;
+            return getId() == other.getId() && getName() == other.getName();
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return "Drink: " + id + " " + name + " " + price + '}';
+        return "Drink: " + getId() + " " + getName() + " " + getPrice() + " " + getRating() + " " + getCondition();
     }
 
 }
