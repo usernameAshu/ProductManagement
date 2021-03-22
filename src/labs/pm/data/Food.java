@@ -25,7 +25,7 @@ import java.util.Objects;
 /**
  * @author MOHANTY
  */
-public class Food extends Product {
+public class Food extends Product implements Comparable<Food>{
 
     private LocalDate bestBefore;
 
@@ -72,5 +72,10 @@ public class Food extends Product {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName());
+    }
+
+    @Override
+    public int compareTo(Food other) {
+        return this.getName().compareTo(other.getName());
     }
 }
