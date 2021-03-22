@@ -21,6 +21,7 @@ package labs.pm.app;
 import labs.pm.data.Product;
 import labs.pm.data.ProductManager;
 import labs.pm.data.Rating;
+import labs.pm.test.Vehicle;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -64,6 +65,53 @@ public class Shop {
         cookieFoodRating.toString();
         iceTea.toString();
         iceTeaRating.toString();
+
+        VehicleImpl car = new VehicleImpl();
+        car.toString();
+        car.is4wheelDrive();
+        car.sellingPrice();
+
+        if(car instanceof Vehicle) {
+            Vehicle vehicle = (Vehicle)car;
+            vehicle.toString();
+            vehicle.is4wheelDrive();
+        }
+
+        Truck truck = new Truck();
+        Vehicle vehicle = (Vehicle)truck;
+        vehicle.toString();
     }
 
+}
+
+class VehicleImpl implements Vehicle {
+    @Override
+    public boolean hasWheels() {
+        return false;
+    }
+
+    @Override
+    public boolean is4wheelDrive() {
+        return false;
+    }
+    public int sellingPrice() {
+        return 100;
+    }
+}
+
+class Truck implements Vehicle {
+    @Override
+    public boolean hasWheels() {
+        return true;
+    }
+
+    @Override
+    public boolean is4wheelDrive() {
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

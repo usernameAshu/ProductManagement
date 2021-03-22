@@ -82,6 +82,8 @@ abstract class Car {
 
     public abstract int topSpeed();
 
+    protected abstract int carMakingCost();
+
 }
 
 /**
@@ -111,12 +113,17 @@ class Nissan extends Car {
         return 100;
     }
 
+    @Override
+    protected int carMakingCost() {
+        return 100;
+    }
+
     public String countryOfOrigin() {
         return "Japan";
     }
 }
 
-class Tata extends Car {
+class Tata extends Car implements Vehicle {
     @Override
     public String carName() {
         return "Tata Hexa";
@@ -127,7 +134,22 @@ class Tata extends Car {
         return 200;
     }
 
-    public String founderName() {
+    @Override
+    protected int carMakingCost() {
+        return 50;
+    }
+
+    @Override
+    public boolean hasWheels() {
+        return false;
+    }
+
+    @Override
+    public boolean is4wheelDrive() {
+        return false;
+    }
+
+    String founderName() {
         return "JK Tata";
     }
 }
