@@ -89,13 +89,32 @@ public class Test {
     }
 }
 
-abstract class Car {
+class AppTest {
+    public static void main(String[] args) throws CloneNotSupportedException {
+        Car car = CarFactory.produceCar("Nissan");
+        Nissan nissanCar = (Nissan)car;
+        Nissan nissanClone = (Nissan)nissanCar.clone();
+
+        car = CarFactory.produceCar("Tata");
+        Tata tataCar = (Tata)car;
+        Tata tataClone = (Tata)tataCar.clone();
+
+        nissanCar.toString();
+        nissanClone.toString();
+    }
+}
+
+abstract class Car implements Cloneable{
     public abstract String carName();
 
     public abstract int topSpeed();
 
     protected abstract int carMakingCost();
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
 
 /**
@@ -133,6 +152,11 @@ class Nissan extends Car {
     public String countryOfOrigin() {
         return "Japan";
     }
+
+    /*@Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }*/
 }
 
 class Tata extends Car implements Vehicle {
@@ -164,4 +188,9 @@ class Tata extends Car implements Vehicle {
     String founderName() {
         return "JK Tata";
     }
+
+    /*@Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }*/
 }
