@@ -101,6 +101,7 @@ class AppTest {
 
         nissanCar.toString();
         nissanClone.toString();
+        Rating.values();
     }
 }
 

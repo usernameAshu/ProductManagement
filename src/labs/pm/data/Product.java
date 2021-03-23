@@ -30,7 +30,7 @@ import java.time.LocalDate;
  * There are no setter method provided
  * Instance Variables can only be accessed through constructor
  */
-public abstract class Product {
+public abstract class Product implements Rateable<Product>{
     private int id;
     private String name;
     private BigDecimal price;
@@ -81,6 +81,7 @@ public abstract class Product {
         return DISCOUNT_RATE;
     }
 
+    @Override
     public Rating getRating() {
         return rating;
     }
@@ -103,13 +104,6 @@ public abstract class Product {
         return taxAmount;
     }
 
-    /**
-     * Abstract method to return Product object with Ratings
-     *
-     * @param rating
-     * @return Product object
-     */
-    public abstract Product applyRating(Rating rating);
 
     @Override
     public String toString() {

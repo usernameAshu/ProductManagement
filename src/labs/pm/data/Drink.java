@@ -22,6 +22,9 @@ import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Objects;
 
+/**
+ * @author MOHANTY 
+ */
 public class Drink extends Product {
 
     Drink(int id, String name, BigDecimal price, Rating rating) {
