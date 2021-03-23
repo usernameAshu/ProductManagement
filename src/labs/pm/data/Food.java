@@ -25,7 +25,7 @@ import java.util.Objects;
 /**
  * @author MOHANTY
  */
-public class Food extends Product implements Comparable<Food>{
+public class Food extends Product implements Comparable<Food>, Cloneable{
 
     private LocalDate bestBefore;
 
@@ -77,5 +77,10 @@ public class Food extends Product implements Comparable<Food>{
     @Override
     public int compareTo(Food other) {
         return this.getName().compareTo(other.getName());
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

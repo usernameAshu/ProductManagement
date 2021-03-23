@@ -18,6 +18,8 @@
 
 package labs.pm.test;
 
+import labs.pm.data.Drink;
+import labs.pm.data.Food;
 import labs.pm.data.Product;
 import labs.pm.data.ProductManager;
 import labs.pm.data.Rating;
@@ -25,12 +27,13 @@ import labs.pm.data.Rating;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Comparator;
 
 public class Test {
 
     public static final String countryTimeZone = "IST";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
 
         LocalDate bestBefore = LocalDate
                 .now(ZoneId.of(ZoneId.SHORT_IDS.get(countryTimeZone)))
@@ -74,6 +77,15 @@ public class Test {
 
         Car carName = CarFactory.produceCar("Tata");
         String name = carName.carName(); //Tata Hexa
+
+        Comparator<Drink> drinkComparator = (d1, d2) -> d1
+                .getName()
+                .compareTo(d2.getName());
+        Food bigMac = (Food)ProductManager.createProduct(1, "Mac burger", BigDecimal.valueOf(450), Rating.FIVE_STAR,
+                bestBefore);
+        Food bigMacFree = (Food)bigMac.clone();
+        boolean b = bigMac == bigMacFree;
+        boolean equals = bigMac.equals(bigMacFree);
     }
 }
 
