@@ -21,12 +21,11 @@ package labs.pm.app;
 import labs.pm.data.Product;
 import labs.pm.data.ProductManager;
 import labs.pm.data.Rating;
-import labs.pm.test.Vehicle;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Objects;
+import java.util.Locale;
 
 /**
  * @author MOHANTY
@@ -39,79 +38,30 @@ public class Shop {
             .plusMonths(6L);
 
     public static void main(String[] args) {
-        Product coffeeDrink = ProductManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.FIVE_STAR);
-        Product cookieFood =
-                ProductManager.createProduct(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR, BEST_BEFORE);
-        Product iceTea = ProductManager.createProduct(3, "Ice-tea", BigDecimal.valueOf(30), Rating.THREE_STAR);
 
-        Product iceTeaRating = iceTea.applyRating(Rating.TWO_STAR);
-        Product cookieFoodRating = cookieFood.applyRating(Rating.ONE_STAR);
+        ProductManager productManager = new ProductManager(Locale.US);
 
-        LocalDate bestBefore = LocalDate
-                .now(ZoneId.of(ZoneId.SHORT_IDS.get(COUNTRY_TIME_ZONE)))
-                .plusMonths(6L);
-        Product rice1 =
-                ProductManager.createProduct(1, "Rice", BigDecimal.valueOf(20.50), Rating.FIVE_STAR, BEST_BEFORE);
-        Product rice2 =
-                ProductManager.createProduct(1, "Rice", BigDecimal.valueOf(20.50), Rating.FIVE_STAR, BEST_BEFORE);
-        Product mojito = ProductManager.createProduct(1, "Mojito", BigDecimal.valueOf(120.50), Rating.FOUR_STAR);
-        boolean foodTest = Objects.equals(rice1, rice2); //true
-        mojito.toString();
-        Product mojitoRating = mojito.applyRating(Rating.TWO_STAR);
-        mojitoRating.toString();
+        Product coffeeDrink = productManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.NOT_RATED);
+        productManager.printProductReport();
+        productManager.reviewProduct(coffeeDrink,Rating.FOUR_STAR,"Nice cup of Coffee");
+        productManager.printProductReport();
+//        Product cookieFood =
+//                productManager.createProduct(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR, BEST_BEFORE);
+//        Product iceTea = productManager.createProduct(3, "Ice-tea", BigDecimal.valueOf(30), Rating.THREE_STAR);
+//
+//        Product iceTeaRating = iceTea.applyRating(Rating.TWO_STAR);
+//        Product cookieFoodRating = cookieFood.applyRating(Rating.ONE_STAR);
+//
+//        Product rice1 =
+//                productManager.createProduct(1, "Rice", BigDecimal.valueOf(20.50), Rating.FIVE_STAR, BEST_BEFORE);
+//        Product rice2 =
+//                productManager.createProduct(1, "Rice", BigDecimal.valueOf(20.50), Rating.FIVE_STAR, BEST_BEFORE);
+//        Product mojito = productManager.createProduct(1, "Mojito", BigDecimal.valueOf(120.50), Rating.FOUR_STAR);
+//
+//        boolean foodTest = Objects.equals(rice1, rice2); //true
+//        mojito.toString();
+//        Product mojitoRating = mojito.applyRating(Rating.TWO_STAR);
 
-        coffeeDrink.toString();
-        cookieFood.toString();
-        cookieFoodRating.toString();
-        iceTea.toString();
-        iceTeaRating.toString();
-
-        VehicleImpl car = new VehicleImpl();
-        car.toString();
-        car.is4wheelDrive();
-        car.sellingPrice();
-
-        if(car instanceof Vehicle) {
-            Vehicle vehicle = (Vehicle)car;
-            vehicle.toString();
-            vehicle.is4wheelDrive();
-        }
-
-        Truck truck = new Truck();
-        Vehicle vehicle = (Vehicle)truck;
-        vehicle.toString();
     }
 
-}
-
-class VehicleImpl implements Vehicle {
-    @Override
-    public boolean hasWheels() {
-        return false;
-    }
-
-    @Override
-    public boolean is4wheelDrive() {
-        return false;
-    }
-    public int sellingPrice() {
-        return 100;
-    }
-}
-
-class Truck implements Vehicle {
-    @Override
-    public boolean hasWheels() {
-        return true;
-    }
-
-    @Override
-    public boolean is4wheelDrive() {
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

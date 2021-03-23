@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Comparator;
+import java.util.Locale;
 
 public class Test {
 
@@ -38,18 +39,19 @@ public class Test {
         LocalDate bestBefore = LocalDate
                 .now(ZoneId.of(ZoneId.SHORT_IDS.get(countryTimeZone)))
                 .plusMonths(6L);
+        ProductManager productManager = new ProductManager(Locale.ENGLISH);
         /**
          * Testing Object class method: toString()
          */
-        Product food = ProductManager.createProduct(1, "Cookie", BigDecimal.valueOf(10), Rating.FIVE_STAR);
+        Product food = productManager.createProduct(1, "Cookie", BigDecimal.valueOf(10), Rating.FIVE_STAR);
         String msg = food.toString();
         //System.out.println(msg);
 
         /**
          * Testing Object class method: equals()
          */
-        Product food1 = ProductManager.createProduct(1, "Cookie", BigDecimal.valueOf(10), Rating.FIVE_STAR);
-        Product food2 = ProductManager.createProduct(1, "Cookie", BigDecimal.valueOf(10), Rating.FIVE_STAR);
+        Product food1 = productManager.createProduct(1, "Cookie", BigDecimal.valueOf(10), Rating.FIVE_STAR);
+        Product food2 = productManager.createProduct(1, "Cookie", BigDecimal.valueOf(10), Rating.FIVE_STAR);
         /*System.out.println("food1 == food2 :" + (food1 == food2));
         System.out.println("food1.equals(food2) :" + food1.equals(food2));*/
 
@@ -81,7 +83,7 @@ public class Test {
         Comparator<Drink> drinkComparator = (d1, d2) -> d1
                 .getName()
                 .compareTo(d2.getName());
-        Food bigMac = (Food)ProductManager.createProduct(1, "Mac burger", BigDecimal.valueOf(450), Rating.FIVE_STAR,
+        Food bigMac = (Food)productManager.createProduct(1, "Mac burger", BigDecimal.valueOf(450), Rating.FIVE_STAR,
                 bestBefore);
         Food bigMacFree = (Food)bigMac.clone();
         boolean b = bigMac == bigMacFree;
