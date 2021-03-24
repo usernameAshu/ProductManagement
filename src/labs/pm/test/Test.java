@@ -104,6 +104,59 @@ class AppTest {
         nissanCar.toString();
         nissanClone.toString();
         Rating.values();
+
+        Car car1 = CarFactory.produceCar("Nissan");
+        TestInterface iObj = (TestInterface)car1;
+        iObj.test();
+
+        RunInterface rObj = (RunInterface)CarFactory.produceCar("Tata");
+        String s1=rObj.test();
+        //TestInterface tObj = (TestInterface)rObj; //ClassCastException
+        //String s2=tObj.test();
+
+        iObj.toString();
+        rObj.toString();
+        //tObj.toString();
+
+       // ProductManager pm = new ProductManager(Locale.ENGLISH);
+        //TestInterface t2Obj = (TestInterface)pm.createProduct(1,"Tea",BigDecimal.valueOf(10),Rating.FOUR_STAR);
+       // String test = t2Obj.test();
+
+        DrinkImpl d = new DrinkImpl();
+        d.drink();
+    }
+}
+interface TestInterface {
+    String test();
+    default void test2() { };
+    static void test3() { };
+    private void test4() { };
+    default String drink() {
+        return "TI.drink";
+    }
+}
+
+interface RunInterface {
+    String test();
+    default void run2() { };
+    static void run3() { };
+    private void run4() { };
+    default String drink() {
+        return "RI.drink";
+    }
+}
+
+class DrinkImpl implements TestInterface,RunInterface{
+
+    @Override
+    public String test() {
+        return "DrinkImpl.test";
+    }
+
+    @Override
+    public String drink() {
+       return TestInterface.super.drink()+ "," +
+        RunInterface.super.drink();
     }
 }
 
@@ -136,7 +189,7 @@ class CarFactory {
     }
 }
 
-class Nissan extends Car {
+class Nissan extends Car implements TestInterface{
     @Override
     public String carName() {
         return "Nissan Micra";
@@ -156,13 +209,18 @@ class Nissan extends Car {
         return "Japan";
     }
 
+    @Override
+    public String test() {
+        return "Nissan Impl";
+    }
+
     /*@Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }*/
 }
 
-class Tata extends Car implements Vehicle {
+class Tata extends Car implements Vehicle,RunInterface {
     @Override
     public String carName() {
         return "Tata Hexa";
@@ -190,6 +248,11 @@ class Tata extends Car implements Vehicle {
 
     String founderName() {
         return "JK Tata";
+    }
+
+    @Override
+    public String test() {
+        return "Tata Impl";
     }
 
     /*@Override
