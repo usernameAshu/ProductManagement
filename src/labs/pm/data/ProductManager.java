@@ -24,7 +24,9 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ProductManager {
@@ -35,7 +37,7 @@ public class ProductManager {
     private NumberFormat moneyFormat;
 
     private Product product;
-    private Review review;
+    private Review[] review = new Review[5];
 
     public ProductManager(Locale locale) {
         this.locale = locale;
@@ -46,39 +48,59 @@ public class ProductManager {
 
     public Product createProduct(int id, String name, BigDecimal price, Rating rating, LocalDate bestBefore) {
         this.product = new Food(id, name, price, bestBefore, rating);
+        //review[0] = new Review(rating,"NA");
         return product;
     }
 
     public Product createProduct(int id, String name, BigDecimal price, Rating rating) {
         this.product = new Drink(id, name, price, rating);
+        //review[0] = new Review(rating,"NA");
         return this.product;
     }
 
     public Product reviewProduct(Product product, Rating rating, String comment) {
-        review = new Review(rating, comment);
-        this.product = product.applyRating(rating);
+        if (review[review.length - 1] != null) {
+            review = Arrays.copyOf(review, review.length + 5);
+        }
+        int sum = 0, i = 0,count=0;
+        boolean reviewed = false;
+        while (i < review.length) {
+            if (review[i] == null && !reviewed) {
+                review[i] = new Review(rating, comment);
+                reviewed = true;
+            }
+            if(Objects.nonNull(review[i])) {
+                sum += review[i].getRating().ordinal();
+                count++;
+            }
+            i++;
+        }
+        Rating avgRating = Rateable.convert(Math.round((float) sum /count));
+        this.product = product.applyRating(avgRating);
         return this.product;
     }
 
     public void printProductReport() {
-        StringBuilder txt = new StringBuilder();
+        StringBuilder prodtxt = new StringBuilder();
+        StringBuilder reviewtxt = new StringBuilder();
 
-        txt.append(MessageFormat.format(resources.getString("product"),
+        prodtxt.append(MessageFormat.format(resources.getString("product"),
                 product.getName(),
                 moneyFormat.format(product.getPrice()),
                 product.getRating().getStars(),
                 dateFormat.format(product.getBestBefore())
         ));
-        txt.append("\n");
-        if (this.review != null) {
-            txt.append(MessageFormat.format(resources.getString("review"),
-                    review.getRating().getStars(),
-                    review.getComment()
-            ));
-        } else {
-            txt.append(resources.getString("no.reviews"));
+        prodtxt.append("\n");
+        System.out.println(prodtxt);
+        for (Review eachReview : review) {
+            if (Objects.nonNull(eachReview)) {
+                reviewtxt.append(MessageFormat.format(resources.getString("review"),
+                        eachReview.getRating().getStars(),
+                        eachReview.getComment()
+                ));
+                reviewtxt.append("\n");
+            }
         }
-        txt.append("\n");
-        System.out.println(txt);
+        System.out.println(reviewtxt);
     }
 }
