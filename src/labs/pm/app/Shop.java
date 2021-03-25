@@ -42,6 +42,7 @@ public class Shop {
         ProductManager productManager = new ProductManager(Locale.US);
 
         Product coffeeDrink = productManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.ONE_STAR);
+        productManager.printProductReport();
         productManager.reviewProduct(coffeeDrink,Rating.FOUR_STAR,"Nice cup of Coffee");
         productManager.reviewProduct(coffeeDrink,Rating.ONE_STAR,"Coffee was cold");
         productManager.reviewProduct(coffeeDrink,Rating.TWO_STAR,"Such a nice cuppa");

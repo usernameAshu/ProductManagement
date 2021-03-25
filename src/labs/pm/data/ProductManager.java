@@ -64,18 +64,15 @@ public class ProductManager {
         }
         int sum = 0, i = 0,count=0;
         boolean reviewed = false;
-        while (i < review.length) {
-            if (review[i] == null && !reviewed) {
+        while (i < review.length && !reviewed) {
+            if (review[i] == null ) {
                 review[i] = new Review(rating, comment);
                 reviewed = true;
             }
-            if(Objects.nonNull(review[i])) {
-                sum += review[i].getRating().ordinal();
-                count++;
-            }
+            sum += review[i].getRating().ordinal();
             i++;
         }
-        Rating avgRating = Rateable.convert(Math.round((float) sum /count));
+        Rating avgRating = Rateable.convert(Math.round((float) sum /i));
         this.product = product.applyRating(avgRating);
         return this.product;
     }
@@ -90,8 +87,7 @@ public class ProductManager {
                 product.getRating().getStars(),
                 dateFormat.format(product.getBestBefore())
         ));
-        prodtxt.append("\n");
-        System.out.println(prodtxt);
+
         for (Review eachReview : review) {
             if (Objects.nonNull(eachReview)) {
                 reviewtxt.append(MessageFormat.format(resources.getString("review"),
@@ -101,6 +97,11 @@ public class ProductManager {
                 reviewtxt.append("\n");
             }
         }
+        if(review[0]==null) {
+            prodtxt.append("\n");
+            prodtxt.append(resources.getString("no.reviews"));
+        }
+        System.out.println(prodtxt);
         System.out.println(reviewtxt);
     }
 }
