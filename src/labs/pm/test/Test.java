@@ -18,16 +18,14 @@
 
 package labs.pm.test;
 
-import labs.pm.data.Drink;
-import labs.pm.data.Food;
-import labs.pm.data.Product;
-import labs.pm.data.ProductManager;
-import labs.pm.data.Rating;
+import labs.pm.data.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 public class Test {
@@ -124,6 +122,18 @@ class AppTest {
 
         DrinkImpl d = new DrinkImpl();
         d.drink();
+
+        Car c1 = CarFactory.produceCar("Nissan");
+        Car c2 = CarFactory.produceCar("Tata");
+        List<Car> catalog = new ArrayList<>();
+        catalog.add(c1);
+        catalog.add(c2);
+        catalog.add(2,null);
+        catalog.add(3,c1);
+        catalog.add(2,c1);
+        catalog.add(1,null);
+
+        catalog.stream().forEach(System.out::println);
     }
 }
 interface TestInterface {
@@ -218,6 +228,11 @@ class Nissan extends Car implements TestInterface{
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }*/
+
+    @Override
+    public String toString() {
+        return getClass().toString();
+    }
 }
 
 class Tata extends Car implements Vehicle,RunInterface {
@@ -259,4 +274,9 @@ class Tata extends Car implements Vehicle,RunInterface {
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }*/
+
+    @Override
+    public String toString() {
+        return getClass().toString();
+    }
 }
