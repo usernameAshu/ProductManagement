@@ -22,7 +22,7 @@ package labs.pm.data;
  * @author MOHANTY
  * Immutable class, Object once invoked can't be changed
  */
-public class Review {
+public class Review implements Comparable<Review>{
     private Rating rating;
     private String comment;
 
@@ -37,5 +37,15 @@ public class Review {
 
     public String getComment() {
         return comment;
+    }
+
+    /**
+     * Performing a descending order search using Collections.sort(..) class
+     * @param other
+     * @return
+     */
+    @Override
+    public int compareTo(Review other) {
+        return other.getRating().ordinal() - this.getRating().ordinal();
     }
 }
