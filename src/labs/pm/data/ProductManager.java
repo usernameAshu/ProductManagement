@@ -24,9 +24,11 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ProductManager {
@@ -36,68 +38,65 @@ public class ProductManager {
     private DateTimeFormatter dateFormat;
     private NumberFormat moneyFormat;
 
-    private Product product;
-    private Review[] review = new Review[5];
+    private Map<Product, List<Review>> products = new HashMap<>();
 
     public ProductManager(Locale locale) {
         this.locale = locale;
         this.resources = ResourceBundle.getBundle("labs.pm.data.resources", locale);
-        this.dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).localizedBy(locale);
+        this.dateFormat = DateTimeFormatter
+                .ofLocalizedDate(FormatStyle.SHORT)
+                .localizedBy(locale);
         this.moneyFormat = NumberFormat.getCurrencyInstance(locale);
     }
 
     public Product createProduct(int id, String name, BigDecimal price, Rating rating, LocalDate bestBefore) {
-        this.product = new Food(id, name, price, bestBefore, rating);
-        //review[0] = new Review(rating,"NA");
+        Product product = new Food(id, name, price, bestBefore, rating);
+        products.putIfAbsent(product, new ArrayList<>());
         return product;
     }
 
     public Product createProduct(int id, String name, BigDecimal price, Rating rating) {
-        this.product = new Drink(id, name, price, rating);
-        //review[0] = new Review(rating,"NA");
-        return this.product;
+        Product product = new Drink(id, name, price, rating);
+        products.putIfAbsent(product, new ArrayList<>());
+        return product;
     }
 
     public Product reviewProduct(Product product, Rating rating, String comment) {
-        if (review[review.length - 1] != null) {
-            review = Arrays.copyOf(review, review.length + 5);
+
+        List<Review> reviews = products.get(product);
+        products.remove(product, reviews);
+        reviews.add(new Review(rating, comment));
+
+        int sum = 0;
+        for (Review review : reviews) {
+            sum += review
+                    .getRating()
+                    .ordinal();
         }
-        int sum = 0, i = 0,count=0;
-        boolean reviewed = false;
-        while (i < review.length && !reviewed) {
-            if (review[i] == null ) {
-                review[i] = new Review(rating, comment);
-                reviewed = true;
-            }
-            sum += review[i].getRating().ordinal();
-            i++;
-        }
-        Rating avgRating = Rateable.convert(Math.round((float) sum /i));
-        this.product = product.applyRating(avgRating);
-        return this.product;
+
+        Rating avgRating = Rateable.convert(Math.round((float)sum / reviews.size()));
+        product = product.applyRating(avgRating);
+        products.put(product, reviews);
+        return product;
     }
 
-    public void printProductReport() {
+    public void printProductReport(Product product) {
+        List<Review> reviews = products.get(product);
         StringBuilder prodtxt = new StringBuilder();
         StringBuilder reviewtxt = new StringBuilder();
 
-        prodtxt.append(MessageFormat.format(resources.getString("product"),
-                product.getName(),
-                moneyFormat.format(product.getPrice()),
-                product.getRating().getStars(),
-                dateFormat.format(product.getBestBefore())
-        ));
+        prodtxt.append(MessageFormat.format(resources.getString("product"), product.getName(),
+                moneyFormat.format(product.getPrice()), product
+                        .getRating()
+                        .getStars(), dateFormat.format(product.getBestBefore())));
 
-        for (Review eachReview : review) {
-            if (Objects.nonNull(eachReview)) {
-                reviewtxt.append(MessageFormat.format(resources.getString("review"),
-                        eachReview.getRating().getStars(),
-                        eachReview.getComment()
-                ));
-                reviewtxt.append("\n");
-            }
+        for (Review eachReview : reviews) {
+            reviewtxt.append(MessageFormat.format(resources.getString("review"), eachReview
+                    .getRating()
+                    .getStars(), eachReview.getComment()));
+            reviewtxt.append("\n");
         }
-        if(review[0]==null) {
+        if (reviews.isEmpty()) {
             prodtxt.append("\n");
             prodtxt.append(resources.getString("no.reviews"));
         }

@@ -42,19 +42,31 @@ public class Shop {
         ProductManager productManager = new ProductManager(Locale.US);
 
         Product coffeeDrink = productManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.ONE_STAR);
-        productManager.printProductReport();
+        productManager.printProductReport(coffeeDrink);
         productManager.reviewProduct(coffeeDrink,Rating.FOUR_STAR,"Nice cup of Coffee");
         productManager.reviewProduct(coffeeDrink,Rating.ONE_STAR,"Coffee was cold");
         productManager.reviewProduct(coffeeDrink,Rating.TWO_STAR,"Such a nice cuppa");
         productManager.reviewProduct(coffeeDrink,Rating.FOUR_STAR,"Such a nice cuppa");
-        productManager.reviewProduct(coffeeDrink,Rating.FIVE_STAR,"Such a nice cuppa");
+        productManager.reviewProduct(coffeeDrink,Rating.ONE_STAR,"Such a nice cuppa");
         productManager.reviewProduct(coffeeDrink,Rating.FOUR_STAR,"Such a nice cuppa");
         productManager.reviewProduct(coffeeDrink,Rating.THREE_STAR,"Such a nice cuppa");
         productManager.reviewProduct(coffeeDrink,Rating.ONE_STAR,"Such a nice cuppa");
-        productManager.printProductReport();
-//        Product cookieFood =
-//                productManager.createProduct(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR, BEST_BEFORE);
-//        Product iceTea = productManager.createProduct(3, "Ice-tea", BigDecimal.valueOf(30), Rating.THREE_STAR);
+        productManager.printProductReport(coffeeDrink);
+
+        Product cookieFood = productManager.createProduct(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR, BEST_BEFORE);
+        productManager.reviewProduct(cookieFood,Rating.FOUR_STAR,"Nice cup of Coffee");
+        productManager.reviewProduct(cookieFood,Rating.ONE_STAR,"Coffee was cold");
+        productManager.reviewProduct(cookieFood,Rating.TWO_STAR,"Such a nice cuppa");
+        productManager.reviewProduct(cookieFood,Rating.FOUR_STAR,"Such a nice cuppa");
+        productManager.reviewProduct(cookieFood,Rating.FIVE_STAR,"Such a nice cuppa");
+        productManager.printProductReport(cookieFood);
+
+        Product iceTea = productManager.createProduct(3, "Ice-tea", BigDecimal.valueOf(30), Rating.THREE_STAR);
+        productManager.reviewProduct(iceTea,Rating.ONE_STAR,"Nice cup of Coffee");
+        productManager.reviewProduct(iceTea,Rating.ONE_STAR,"Coffee was cold");
+        productManager.reviewProduct(iceTea,Rating.FIVE_STAR,"Such a nice cuppa");
+        productManager.reviewProduct(iceTea,Rating.ONE_STAR,"Such a nice cuppa");
+        productManager.printProductReport(iceTea);
 //
 //        Product iceTeaRating = iceTea.applyRating(Rating.TWO_STAR);
 //        Product cookieFoodRating = cookieFood.applyRating(Rating.ONE_STAR);
