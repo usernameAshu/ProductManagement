@@ -21,7 +21,7 @@ package labs.pm.test.practice;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-public class Solution {
+public class SolutionHCL {
     private static int i, j, arrIndex;
 
     public static void main(String[] args) {
