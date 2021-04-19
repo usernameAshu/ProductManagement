@@ -62,6 +62,21 @@ public class ProductManager {
         return product;
     }
 
+    public Product findProduct(int id) {
+        Product result = null;
+        for(Product product: products.keySet()){
+            if(product.getId() == id) {
+                result = product;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public Product reviewProduct(int id, Rating rating, String comment) {
+        return reviewProduct(findProduct(id),rating,comment);
+    }
+
     public Product reviewProduct(Product product, Rating rating, String comment) {
 
         List<Review> reviews = products.get(product);
@@ -81,6 +96,9 @@ public class ProductManager {
         return product;
     }
 
+    public void printProductReport(int id)  {
+        printProductReport(findProduct(id));
+    }
     public void printProductReport(Product product) {
         List<Review> reviews = products.get(product);
         StringBuilder prodtxt = new StringBuilder();
@@ -106,14 +124,5 @@ public class ProductManager {
         System.out.println(reviewtxt);
     }
 
-    public Product findProduct(int id) {
-        Product result = null;
-        for(Product product: products.keySet()){
-            if(product.getId() == id) {
-                result = product;
-                break;
-            }
-        }
-        return result;
-    }
+
 }
