@@ -60,7 +60,7 @@ public class Shop {
         productManager.reviewProduct(1, Rating.FIVE_STAR, "Coffee was cold");
         productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
         productManager.reviewProduct(1, Rating.FOUR_STAR, "Such a nice cuppa");
-        productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
+        productManager.reviewProduct(40, Rating.FIVE_STAR, "Such a nice cuppa");
         productManager.reviewProduct(1, Rating.FOUR_STAR, "Such a nice cuppa");
         productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
         productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
@@ -88,7 +88,7 @@ public class Shop {
         productManager.reviewProduct(4, Rating.FIVE_STAR, "Nice cup of Shake");
         productManager.reviewProduct(4, Rating.FIVE_STAR, "Shake was cold");
         productManager.reviewProduct(4, Rating.FIVE_STAR, "Such a nice Shake");
-        productManager.reviewProduct(4, Rating.ONE_STAR, "Such a nice Shake");
+        productManager.reviewProduct(99, Rating.ONE_STAR, "Such a nice Shake");
 //        productManager.printProductReport(kitKatShake);
 
         //List products according to ratings
@@ -97,7 +97,7 @@ public class Shop {
         //List products according to Price
         Comparator<Product> priceCompare = (p1, p2) -> p2.getPrice().compareTo(p1.getPrice());
 
-        Predicate<Product> priceFilter = p1 -> p1.getPrice().compareTo(BigDecimal.valueOf(40))<0;
+        Predicate<Product> priceFilter = p1 -> p1.getPrice().compareTo(BigDecimal.valueOf(100))<0;
         //Double comparison
         productManager.printProducts(priceFilter,priceCompare.thenComparing(ratingCompare));
         productManager.changeLocale("fr-FR");

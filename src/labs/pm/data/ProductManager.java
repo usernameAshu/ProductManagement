@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ProductManager {
@@ -43,6 +45,8 @@ public class ProductManager {
             Map.of("en-GB", new ResourceFormatter(Locale.UK), "en-US", new ResourceFormatter(Locale.US), "fr-FR",
                     new ResourceFormatter(Locale.FRANCE), "ru-RU", new ResourceFormatter(new Locale("ru", "RU")),
                     "zh-CN", new ResourceFormatter(Locale.CHINESE));
+
+    private static final Logger LOGGER = Logger.getLogger(ProductManager.class.getName());
 
     private ResourceFormatter formatter;
 
@@ -74,26 +78,26 @@ public class ProductManager {
         return product;
     }
 
-    public Product findProduct(int id) {
-        //        Product result = null;
-        //        for (Product product : products.keySet()) {
-        //            if (product.getId() == id) {
-        //                result = product;
-        //                break;
-        //            }
-        //        }
-        //        return result;
+    public Product findProduct(int id) throws ProductManagerException {
+
         return products
                 .keySet()
                 .stream()
                 .filter(product -> product.getId() == id)
                 .findFirst()
-                .orElseGet(() -> null);
+                .orElseThrow(
+                        () -> new ProductManagerException("Product with id:"+
+                                id+" is not present!"));
 
     }
 
     public Product reviewProduct(int id, Rating rating, String comment) {
-        return reviewProduct(findProduct(id), rating, comment);
+        try {
+            return reviewProduct(findProduct(id), rating, comment);
+        } catch (ProductManagerException ex) {
+            LOGGER.log(Level.INFO,ex.getMessage());
+        }
+        return null;
     }
 
     public Product reviewProduct(Product product, Rating rating, String comment) {
@@ -124,7 +128,11 @@ public class ProductManager {
     }
 
     public void printProductReport(int id) {
-        printProductReport(findProduct(id));
+        try {
+            printProductReport(findProduct(id));
+        } catch (ProductManagerException ex) {
+            LOGGER.log(Level.INFO,ex.getMessage());
+        }
     }
 
     public void printProductReport(Product product) {
