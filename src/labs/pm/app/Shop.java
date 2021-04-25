@@ -102,6 +102,8 @@ public class Shop {
         productManager.printProducts(priceFilter,priceCompare.thenComparing(ratingCompare));
         productManager.changeLocale("fr-FR");
         productManager.printProducts(priceFilter,ratingCompare.thenComparing(priceCompare).reversed());
+
+        productManager.getDiscounts().forEach((product,discounts) -> System.out.println(product +" : " +discounts));
 //
 //        Product iceTeaRating = iceTea.applyRating(Rating.TWO_STAR);
 //        Product cookieFoodRating = cookieFood.applyRating(Rating.ONE_STAR);

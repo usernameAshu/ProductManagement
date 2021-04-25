@@ -167,6 +167,21 @@ public class ProductManager {
         System.out.println(txt);
     }
 
+    public Map<String,String> getDiscounts() {
+        return  products.keySet()
+                .stream()
+                .collect(
+                        Collectors.groupingBy(
+                                product -> product.getRating().getStars(),
+                                Collectors.collectingAndThen(
+                                        Collectors.summingDouble(product -> product.getDiscount().doubleValue()),
+                                        discount -> formatter.moneyFormat.format(discount)
+                                )
+                        )
+                );
+    }
+
+
     private static class ResourceFormatter {
         private Locale locale;
         private ResourceBundle resources;
