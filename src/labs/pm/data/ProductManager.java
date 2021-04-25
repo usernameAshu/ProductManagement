@@ -21,8 +21,10 @@ package labs.pm.data;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,6 +51,9 @@ public class ProductManager {
     private static final Logger LOGGER = Logger.getLogger(ProductManager.class.getName());
 
     private ResourceFormatter formatter;
+    private ResourceBundle config = ResourceBundle.getBundle("labs.pm.data.config");
+    private MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
+    private MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
 
     public ProductManager(Locale locale) {
         this(locale.toLanguageTag());
@@ -86,8 +91,8 @@ public class ProductManager {
                 .filter(product -> product.getId() == id)
                 .findFirst()
                 .orElseThrow(
-                        () -> new ProductManagerException("Product with id:"+
-                                id+" is not present!"));
+                        () -> new ProductManagerException("Product with id:" +
+                                id + " is not present!"));
 
     }
 
@@ -95,7 +100,7 @@ public class ProductManager {
         try {
             return reviewProduct(findProduct(id), rating, comment);
         } catch (ProductManagerException ex) {
-            LOGGER.log(Level.INFO,ex.getMessage());
+            LOGGER.log(Level.INFO, ex.getMessage());
         }
         return null;
     }
@@ -131,7 +136,7 @@ public class ProductManager {
         try {
             printProductReport(findProduct(id));
         } catch (ProductManagerException ex) {
-            LOGGER.log(Level.INFO,ex.getMessage());
+            LOGGER.log(Level.INFO, ex.getMessage());
         }
     }
 
@@ -153,9 +158,9 @@ public class ProductManager {
             txt.append(formatter.getText("no.reviews") + "\n");
         } else {
             txt.append(
-            reviews.stream()
-                    .map(review -> formatter.formatReviews(review) +"\n")
-                    .collect(Collectors.joining()));
+                    reviews.stream()
+                            .map(review -> formatter.formatReviews(review) + "\n")
+                            .collect(Collectors.joining()));
         }
         System.out.println(txt);
 
@@ -175,8 +180,8 @@ public class ProductManager {
         System.out.println(txt);
     }
 
-    public Map<String,String> getDiscounts() {
-        return  products.keySet()
+    public Map<String, String> getDiscounts() {
+        return products.keySet()
                 .stream()
                 .collect(
                         Collectors.groupingBy(
@@ -189,6 +194,38 @@ public class ProductManager {
                 );
     }
 
+    public void parseReview(String text) {
+        try {
+            Object[] values = reviewFormat.parse(text);
+            reviewProduct(Integer.parseInt((String) values[0]),
+                    Rateable.convert(Integer.parseInt((String) values[1])),
+                    (String) values[2]);
+        } catch (ParseException | NumberFormatException ex) {
+            LOGGER.log(Level.WARNING, "Error parsing review ", text);
+        }
+    }
+
+    public void parseProduct(String text) {
+        try {
+            Object[] values = productFormat.parse(text);
+            int id = Integer.parseInt((String) values[1]);
+            String name = (String) values[2];
+            BigDecimal price = BigDecimal.valueOf(Double.parseDouble((String)values[3]));
+            Rating rating = Rateable.convert(Integer.parseInt((String) values[4]));
+            switch ((String)values[0]) {
+                case "D":
+                    createProduct(id,name,price,rating);
+                    break;
+                case "F":
+                    LocalDate bestBefore = LocalDate.parse((String)values[5]);
+                    createProduct(id,name,price,rating,bestBefore);
+                    break;
+            }
+
+        } catch (ParseException | NumberFormatException | DateTimeParseException ex) {
+            LOGGER.log(Level.WARNING, "Error parsing Product: " + text + "  " + ex.getMessage());
+        }
+    }
 
     private static class ResourceFormatter {
         private Locale locale;

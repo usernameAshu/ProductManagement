@@ -56,15 +56,16 @@ public class Shop {
 
 
         productManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.ONE_STAR);
+        productManager.parseReview("1,4,Nice Cup");
         productManager.reviewProduct(1, Rating.FOUR_STAR, "Nice cup of Coffee");
-        productManager.reviewProduct(1, Rating.FIVE_STAR, "Coffee was cold");
-        productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
-        productManager.reviewProduct(1, Rating.FOUR_STAR, "Such a nice cuppa");
-        productManager.reviewProduct(40, Rating.FIVE_STAR, "Such a nice cuppa");
-        productManager.reviewProduct(1, Rating.FOUR_STAR, "Such a nice cuppa");
-        productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
-        productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
-//        productManager.printProductReport(1);
+//        productManager.reviewProduct(1, Rating.FIVE_STAR, "Coffee was cold");
+//        productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
+//        productManager.reviewProduct(1, Rating.FOUR_STAR, "Such a nice cuppa");
+//        productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
+//        productManager.reviewProduct(1, Rating.FOUR_STAR, "Such a nice cuppa");
+//        productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
+//        productManager.reviewProduct(1, Rating.FIVE_STAR, "Such a nice cuppa");
+        productManager.printProductReport(1);
 
 //        productManager.changeLocale("fr-FR");
 
@@ -88,7 +89,7 @@ public class Shop {
         productManager.reviewProduct(4, Rating.FIVE_STAR, "Nice cup of Shake");
         productManager.reviewProduct(4, Rating.FIVE_STAR, "Shake was cold");
         productManager.reviewProduct(4, Rating.FIVE_STAR, "Such a nice Shake");
-        productManager.reviewProduct(99, Rating.ONE_STAR, "Such a nice Shake");
+        productManager.reviewProduct(4, Rating.ONE_STAR, "Such a nice Shake");
 //        productManager.printProductReport(kitKatShake);
 
         //List products according to ratings
@@ -99,11 +100,11 @@ public class Shop {
 
         Predicate<Product> priceFilter = p1 -> p1.getPrice().compareTo(BigDecimal.valueOf(100))<0;
         //Double comparison
-        productManager.printProducts(priceFilter,priceCompare.thenComparing(ratingCompare));
-        productManager.changeLocale("fr-FR");
-        productManager.printProducts(priceFilter,ratingCompare.thenComparing(priceCompare).reversed());
-
-        productManager.getDiscounts().forEach((product,discounts) -> System.out.println(product +" : " +discounts));
+//        productManager.printProducts(priceFilter,priceCompare.thenComparing(ratingCompare));
+//        productManager.changeLocale("fr-FR");
+//        productManager.printProducts(priceFilter,ratingCompare.thenComparing(priceCompare).reversed());
+//
+//        productManager.getDiscounts().forEach((product,discounts) -> System.out.println(product +" : " +discounts));
 //
 //        Product iceTeaRating = iceTea.applyRating(Rating.TWO_STAR);
 //        Product cookieFoodRating = cookieFood.applyRating(Rating.ONE_STAR);
