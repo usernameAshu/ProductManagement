@@ -110,4 +110,23 @@ public abstract class Product implements Rateable<Product>{
         return getId() + " " + getName() + " " + getPrice() + " " + getDiscount() + " " + getRating() + " "
                 + getBestBefore() + " ";
     }
+
+    @Override
+    public int hashCode() {
+        int hash= 5;
+        hash = 61*hash + this.getId();
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this ==obj) {
+            return true;
+        }
+        if(obj instanceof Product) {
+            final Product other = (Product)obj;
+            return this.getId() == other.getId();
+        }
+        return false;
+    }
 }

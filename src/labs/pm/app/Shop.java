@@ -41,7 +41,7 @@ public class Shop {
 
         ProductManager productManager = new ProductManager(Locale.US);
 
-        Product coffeeDrink = productManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.ONE_STAR);
+        /*Product coffeeDrink = productManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.ONE_STAR);
         productManager.printProductReport(coffeeDrink);
         productManager.reviewProduct(coffeeDrink,Rating.FOUR_STAR,"Nice cup of Coffee");
         productManager.reviewProduct(coffeeDrink,Rating.ONE_STAR,"Coffee was cold");
@@ -51,7 +51,19 @@ public class Shop {
         productManager.reviewProduct(coffeeDrink,Rating.FOUR_STAR,"Such a nice cuppa");
         productManager.reviewProduct(coffeeDrink,Rating.THREE_STAR,"Such a nice cuppa");
         productManager.reviewProduct(coffeeDrink,Rating.ONE_STAR,"Such a nice cuppa");
-        productManager.printProductReport(coffeeDrink);
+        productManager.printProductReport(coffeeDrink);*/
+
+
+        productManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.ONE_STAR);
+        productManager.reviewProduct(1,Rating.FOUR_STAR,"Nice cup of Coffee");
+        productManager.reviewProduct(1,Rating.ONE_STAR,"Coffee was cold");
+        productManager.reviewProduct(1,Rating.TWO_STAR,"Such a nice cuppa");
+        productManager.reviewProduct(1,Rating.FOUR_STAR,"Such a nice cuppa");
+        productManager.reviewProduct(1,Rating.ONE_STAR,"Such a nice cuppa");
+        productManager.reviewProduct(1,Rating.FOUR_STAR,"Such a nice cuppa");
+        productManager.reviewProduct(1,Rating.THREE_STAR,"Such a nice cuppa");
+        productManager.reviewProduct(1,Rating.ONE_STAR,"Such a nice cuppa");
+        productManager.printProductReport(1);
 
         Product cookieFood = productManager.createProduct(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR, BEST_BEFORE);
         productManager.reviewProduct(cookieFood,Rating.FOUR_STAR,"Nice cup of Coffee");
