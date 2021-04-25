@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 /**
  * @author MOHANTY
@@ -96,8 +97,11 @@ public class Shop {
         //List products according to Price
         Comparator<Product> priceCompare = (p1, p2) -> p2.getPrice().compareTo(p1.getPrice());
 
+        Predicate<Product> priceFilter = p1 -> p1.getPrice().compareTo(BigDecimal.valueOf(40))<0;
         //Double comparison
-        productManager.printProducts(priceCompare.thenComparing(ratingCompare));
+        productManager.printProducts(priceFilter,priceCompare.thenComparing(ratingCompare));
+        productManager.changeLocale("fr-FR");
+        productManager.printProducts(priceFilter,ratingCompare.thenComparing(priceCompare).reversed());
 //
 //        Product iceTeaRating = iceTea.applyRating(Rating.TWO_STAR);
 //        Product cookieFoodRating = cookieFood.applyRating(Rating.ONE_STAR);
