@@ -25,7 +25,6 @@ import labs.pm.data.Rating;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Locale;
 
 /**
  * @author MOHANTY
@@ -39,7 +38,7 @@ public class Shop {
 
     public static void main(String[] args) {
 
-        ProductManager productManager = new ProductManager(Locale.US);
+        ProductManager productManager = new ProductManager("en-GB");
 
         /*Product coffeeDrink = productManager.createProduct(1, "Coffee", BigDecimal.valueOf(15), Rating.ONE_STAR);
         productManager.printProductReport(coffeeDrink);
@@ -64,6 +63,8 @@ public class Shop {
         productManager.reviewProduct(1,Rating.THREE_STAR,"Such a nice cuppa");
         productManager.reviewProduct(1,Rating.ONE_STAR,"Such a nice cuppa");
         productManager.printProductReport(1);
+
+        productManager.changeLocale("fr-FR");
 
         Product cookieFood = productManager.createProduct(2, "Cookie", BigDecimal.valueOf(50), Rating.FOUR_STAR, BEST_BEFORE);
         productManager.reviewProduct(cookieFood,Rating.FOUR_STAR,"Nice cup of Coffee");

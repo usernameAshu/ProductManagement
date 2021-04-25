@@ -31,23 +31,34 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class ProductManager {
 
-    private Locale locale;
-    private ResourceBundle resources;
-    private DateTimeFormatter dateFormat;
-    private NumberFormat moneyFormat;
-
     private Map<Product, List<Review>> products = new HashMap<>();
+    private static Map<String,ResourceFormatter> formatters =
+            Map.of("en-GB", new ResourceFormatter(Locale.UK),
+                    "en-US",new ResourceFormatter(Locale.US),
+                    "fr-FR",new ResourceFormatter(Locale.FRANCE),
+                    "ru-RU", new ResourceFormatter(new Locale("ru","RU")),
+                    "zh-CN",new ResourceFormatter(Locale.CHINESE));
+
+    private ResourceFormatter formatter;
 
     public ProductManager(Locale locale) {
-        this.locale = locale;
-        this.resources = ResourceBundle.getBundle("labs.pm.data.resources", locale);
-        this.dateFormat = DateTimeFormatter
-                .ofLocalizedDate(FormatStyle.SHORT)
-                .localizedBy(locale);
-        this.moneyFormat = NumberFormat.getCurrencyInstance(locale);
+        this(locale.toLanguageTag());
+    }
+
+    public ProductManager(String languageTag) {
+        changeLocale(languageTag);
+    }
+
+    public void changeLocale(String languageTag) {
+        formatter = formatters.getOrDefault(languageTag, formatters.get("en-GB"));
+    }
+
+    public Set<String> getSupportedLocales() {
+        return formatters.keySet();
     }
 
     public Product createProduct(int id, String name, BigDecimal price, Rating rating, LocalDate bestBefore) {
@@ -104,24 +115,67 @@ public class ProductManager {
         StringBuilder prodtxt = new StringBuilder();
         StringBuilder reviewtxt = new StringBuilder();
 
-        prodtxt.append(MessageFormat.format(resources.getString("product"), product.getName(),
-                moneyFormat.format(product.getPrice()), product
-                        .getRating()
-                        .getStars(), dateFormat.format(product.getBestBefore())));
+        prodtxt.append(formatter.formatProduct(product));
 
         Collections.sort(reviews);
-        for (Review eachReview : reviews) {
-            reviewtxt.append(MessageFormat.format(resources.getString("review"), eachReview
-                    .getRating()
-                    .getStars(), eachReview.getComment()));
+        for (Review review : reviews) {
+            reviewtxt.append(formatter.formatReviews(review) );
             reviewtxt.append("\n");
         }
         if (reviews.isEmpty()) {
+            prodtxt.append(formatter.getText("no.reviews"));
             prodtxt.append("\n");
-            prodtxt.append(resources.getString("no.reviews"));
         }
         System.out.println(prodtxt);
         System.out.println(reviewtxt);
+    }
+    private static class ResourceFormatter {
+        private Locale locale;
+        private ResourceBundle resources;
+        private DateTimeFormatter dateFormat;
+        private NumberFormat moneyFormat;
+
+        private ResourceFormatter(Locale locale) {
+            this.locale = locale;
+            this.resources = ResourceBundle.getBundle("labs.pm.data.resources", locale);
+            this.dateFormat = DateTimeFormatter
+                    .ofLocalizedDate(FormatStyle.SHORT)
+                    .localizedBy(locale);
+            this.moneyFormat = NumberFormat.getCurrencyInstance(locale);
+        }
+
+        /**
+         * Format the Product for printing in the report
+         * @param product
+         * @return
+         */
+        private String formatProduct(Product product) {
+            return  MessageFormat.format(resources.getString("product"),
+                    product.getName(),
+                    moneyFormat.format(product.getPrice()),
+                    product.getRating().getStars(),
+                    dateFormat.format(product.getBestBefore()));
+        }
+
+        /**
+         * Format the reviews to be appended in the Product print report
+         * @param review
+         * @return
+         */
+        private String formatReviews(Review review) {
+            return  MessageFormat.format(resources.getString("review"),
+                    review.getRating().getStars(),
+                    review.getComment());
+        }
+
+        /**
+         * Get any text from the resource bundle
+         * @param key
+         * @return
+         */
+        private String getText(String key) {
+            return resources.getString(key);
+        }
     }
 
 
